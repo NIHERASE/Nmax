@@ -2,11 +2,13 @@ module Nmax
   class StreamDigitScanner
     NUMBERS    = '0'..'9'
     REGEX      = /\d+/
-    READ_LIMIT = 2000 # bytes
+    READ_LIMIT = 400 * 1024 # Bytes
 
-    def initialize(stream)
+    def initialize(stream, read_limit = READ_LIMIT)
       @stream         = stream
       @previous_chunk = ''
+      @read_limit     = read_limit
+      @bytes = 0
     end
 
     def scan(&block)
@@ -27,8 +29,13 @@ module Nmax
     end
 
     def next_chunk
-      return nil if @stream.eof?
-      @stream.read(READ_LIMIT)
+      return nil if @stream.closed? || @stream.eof?
+      bytes = @stream.read(@read_limit)
+      @stream.close if bytes.size < @read_limit
+
+      STDERR.print "\r#{(@bytes += @read_limit)/1000000.0}MB read"
+
+      bytes
     end
   end
 end
