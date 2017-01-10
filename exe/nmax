@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
 require 'nmax'
+require 'nmax/cli'
 
-puts 'lol'
+Nmax::CLI.start(ARGV)
