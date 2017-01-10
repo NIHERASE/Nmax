@@ -2,11 +2,11 @@ module Nmax
   class TopNArray
     def initialize(max_items)
       @max_items = max_items
-      @array     = []
+      @array     = [-(1/0.0)]
     end
 
     def <<(item)
-      return if !@array.empty? && item < @array.last || @array.size < @max_items
+      return if item < @array.last && @array.size == @max_items
 
       index = @array.bsearch_index { |i| item >= i }
 
