@@ -8,7 +8,6 @@ module Nmax
       @stream         = stream
       @previous_chunk = ''
       @read_limit     = read_limit
-      @bytes = 0
     end
 
     def scan(&block)
@@ -32,8 +31,6 @@ module Nmax
       return nil if @stream.closed? || @stream.eof?
       bytes = @stream.read(@read_limit)
       @stream.close if bytes.size < @read_limit
-
-      STDERR.print "\r#{(@bytes += @read_limit)/1000000.0}MB read"
 
       bytes
     end
