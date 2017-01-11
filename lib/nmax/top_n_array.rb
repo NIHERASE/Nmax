@@ -1,16 +1,17 @@
 module Nmax
   class TopNArray
     def initialize(max_items)
-      @max_items = max_items
-      @array     = [-(1/0.0)]
+      @max_items    = max_items
+      @array        = []
+      @least_number = -Float::INFINITY
     end
 
     def <<(item)
-      return if item < @array.last && @array.size == @max_items
+      return if @array.size == @max_items && item < @least_number
 
       index = @array.bsearch_index { |i| item >= i }
 
-      if index.nil? && @array.empty?
+      if index.nil? && @array.size != @max_items
         @array << item
       else
         @array.insert(index, item)
@@ -18,6 +19,10 @@ module Nmax
           @array.pop
         end
       end
+
+      @least_number = @array.last
+
+      self
     end
 
     def to_a

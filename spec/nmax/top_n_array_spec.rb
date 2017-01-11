@@ -4,19 +4,36 @@ RSpec.describe Nmax::TopNArray do
   let(:nmax) { 3 }
 
   describe '#<<' do
-    subject { described_class.new(nmax) }
+    context do
+      subject { described_class.new(nmax) }
 
-    context 'first nmax insetions' do
-      let(:insertions) { [3, 2, 1] }
+      context 'sorts numbers if nmax limit is not reached' do
+        it 'works with single insert' do
+          subject << 1
+          expect(subject.to_a).to eq([1])
+        end
 
-      it 'sorts first nmax insertions' do
-        insertions.each { |i| subject << i }
-        expect(subject.to_a).to eq(insertions)
+        it 'works with multiple inserts' do
+          subject << 1
+          subject << 2
+          expect(subject.to_a).to eq([2, 1])
+        end
       end
 
-      it 'sorts first nmax insertions' do
-        insertions.reverse.each { |i| subject << i }
-        expect(subject.to_a).to eq(insertions)
+      context 'first nmax insetions' do
+        context 'sorts insertions' do
+          let(:insertions) { [3, 2, 1] }
+
+          it 'desc insertions' do
+            insertions.each { |i| subject << i }
+            expect(subject.to_a).to eq(insertions)
+          end
+
+          it 'asc insertions' do
+            insertions.reverse.each { |i| subject << i }
+            expect(subject.to_a).to eq(insertions)
+          end
+        end
       end
     end
 
