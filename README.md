@@ -1,5 +1,7 @@
 # Nmax
 
+[![Build Status](https://travis-ci.org/NIHERASE/Nmax.svg?branch=master)](https://travis-ci.org/NIHERASE/Nmax)
+
 ## Установка
 
 ```bash
