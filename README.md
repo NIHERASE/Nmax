@@ -6,6 +6,7 @@
 
 ```bash
 git clone git@github.com:NIHERASE/Nmax.git && cd Nmax
+bundle install
 rake install
 ```
 
