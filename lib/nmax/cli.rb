@@ -14,13 +14,10 @@ nmax accepts single argument N -- maximum count of numbers to show.
     end
 
     def run
-      top = TopNArray.new(@nmax)
-      StreamDigitScanner.new(STDIN).scan do |i|
-        top << i.to_i
-      end
+      top = Nmax.in_stream(STDIN, nmax)
 
       puts "Top #{@nmax} largest numbers:"
-      puts top.to_a
+      top.each { |n| puts n }
     end
 
     def nmax
